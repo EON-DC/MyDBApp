@@ -12,6 +12,8 @@ public interface WordService {
 
     Word getWord(Long id);
 
+    Word saveWord(Word word);
+
     Word updateWord(Long id, String concept, String meaning);
 
     Long deleteWord(Long id);

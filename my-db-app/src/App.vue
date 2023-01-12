@@ -2,56 +2,61 @@
   <div>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <div class="container-fluid">
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item mx-2">
-              <b-link to="/">Home</b-link>
-            </li>
-            <li class="nav-item mx-2">
-              <b-link to="/study">Study</b-link>
-            </li>
-          </ul>
-          <form class="d-flex">
-            <input
-              class="form-control me-2"
-              type="search"
-              placeholder="Search"
-              aria-label="Search"
-            />
-            <button class="btn btn-outline-success" type="submit">
-              Search
-            </button>
-          </form>
-        </div>
+        <router-link to="/">
+          <span>Home</span>
+        </router-link>
+        <router-link to="/study">
+          <span>Study</span>
+        </router-link>
       </div>
     </nav>
-    <router-view />
+    <router-view :nameOfChild="name" :words="data.words" :quiz="data.quiz" />
   </div>
 </template>
 <script>
+import { reactive, onMounted } from 'vue'
+
 export default {
   name: '',
   components: {},
   data() {
     return {
-      sampleData: ''
+      name: 'park'
     }
   },
-  setup() {},
+  setup() {
+    const data = reactive({
+      words: [],
+      quiz: ''
+    })
+    const getWordList = () => {
+      fetch('http://localhost:8085/api/words')
+        .then((response) => response.json())
+        .then((response) => {
+          data.words = response
+        })
+    }
+    const getQuiz = () => {
+      fetch('http://localhost:8085/api/words/quiz')
+        .then((response) => response.json())
+        .then((response) => {
+          data.quiz = response
+        })
+    }
+    onMounted(() => {
+      getWordList(), getQuiz()
+      console.log(data)
+    })
+    return {
+      data: data,
+      getWordList: getWordList,
+      getQuiz: getQuiz
+    }
+  },
+
   created() {},
   mounted() {},
   unmounted() {},
-  methods: {}``
+  methods: {}
 }
 </script>
