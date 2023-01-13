@@ -1,9 +1,6 @@
 package jv.dbApp.myPrivateDB.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,11 +13,19 @@ public class Word {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "word_id")
     private Long id;
 
     private String concept;
 
     private String meaning;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id")
+    private Category category;
+
+    private String fullName;
+
 
     public Word(String concept, String meaning) {
         this.concept = concept;
