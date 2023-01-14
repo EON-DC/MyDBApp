@@ -5,16 +5,13 @@ import jv.dbApp.myPrivateDB.domain.Word;
 import jv.dbApp.myPrivateDB.repository.CategoryJpaRepository;
 import jv.dbApp.myPrivateDB.repository.WordJpaRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -35,25 +32,41 @@ public class WordEnrollService {
                 String[] aLine = line.split(",");
                 ArrayList<String> temper = new ArrayList<>();
                 String damper = "";
-                Small:
-                for (String sector : aLine) {
-                    if (sector.startsWith("\"")) {
-                        damper += sector;
-                        continue Small;
+                /**
+                 * Pseudo Code
+                 * (첫번째 항이다) ? temper 저장 후 다음 반복
+                 * 두번째항이고, startwith \"이다 ? 다음 " 이 나올 때까지 damper에 저장
+                 * 두번째항이고, \"로 시작하지 않는다 ? 쉼표 차례대로 항을 저장하면됌
+                 */
+                temper.add(aLine[0]);
+                if (aLine[1].startsWith("\"")) {
+                    int meaningEndIndex = 0;
+                    for (int i = 1; i < aLine.length; i++) {
+                        if (aLine[i].endsWith("\"")) {
+                            meaningEndIndex = i;
+                            damper += aLine[i];
+                            break;
+                        }
                     }
-                    if (sector.endsWith("\"")) {
-                        damper += sector;
-                        temper.add(damper.substring(1, damper.length() - 1));
-                        damper = "";
-                        continue Small;
-                    }
-                    temper.add(sector);
-                }
-                if (temper.size() == 3) {
-                    temper.add("null");
-                }
+                    temper.add(damper.substring(1, damper.length() - 1));
+                    temper.add(aLine[meaningEndIndex + 1]);
+                    try {
+                        temper.add(aLine[meaningEndIndex + 2]);
 
-                System.out.println("temper = " + temper.toString());
+                    } catch (IndexOutOfBoundsException e) {
+                        temper.add("null");
+                    }
+
+                } else {
+                    temper.add(aLine[1]);
+                    temper.add(aLine[2]);
+                    try {
+                        temper.add(aLine[3]);
+
+                    } catch (IndexOutOfBoundsException e) {
+                        temper.add("null");
+                    }
+                }
                 // [0] : concept, [1]: meaning, [2]: category, [3]: fullName
                 Word word = new Word();
                 word.setConcept(temper.get(0));
