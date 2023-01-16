@@ -10,13 +10,6 @@ export default {
   name: 'study',
   components: {},
   props: ['nameOfChild', 'words'],
-  data() {
-    return {}
-  },
-  setup() {},
-  created() {},
-  mounted() {},
-  unmounted() {},
-  methods: {}
+  
 }
 </script>
