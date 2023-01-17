@@ -1,8 +1,6 @@
 package jv.dbApp.myPrivateDB.service;
 
-import jv.dbApp.myPrivateDB.domain.Category;
 import jv.dbApp.myPrivateDB.domain.Word;
-import jv.dbApp.myPrivateDB.repository.CategoryJpaRepository;
 import jv.dbApp.myPrivateDB.repository.WordJpaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -24,6 +22,7 @@ public class WordEnrollService {
         String line = "";
         List<String> categories = categoryJpaRepository.findAll().stream()
                 .map(Category::getCategorySector).toList();
+        List<Word> words = new ArrayList<>();
         try{
             BufferedReader br = new BufferedReader(new FileReader(path));
             br.readLine();
@@ -74,11 +73,14 @@ public class WordEnrollService {
                 word.setFullName(temper.get(3));
                 Category category = getCategory(temper.get(2));
                 word.setCategory(category);
-                wordJpaRepository.save(word);
+                words.add(word);
             }
         } catch (Exception e) {
             throw new RuntimeException("cannot read file" + e);
+        }finally {
+            wordJpaRepository.saveAll(words);
         }
+
     }
 
     private Category getCategory(String sector) {
