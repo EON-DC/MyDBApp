@@ -18,7 +18,7 @@ public interface WordService {
 
     Long deleteWord(Long id);
 
-    Page<Word> getAllWordsAsPage();
+
 
     Page<Word> getWordsAsPage(int page, int size);
 

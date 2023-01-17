@@ -9,7 +9,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
@@ -46,10 +48,7 @@ public class WordDefaultService implements WordService {
         return id;
     }
 
-    @Override
-    public Page<Word> getAllWordsAsPage() {
-        return wordJpaRepository.findAll(PageRequest.of(0, 4));
-    }
+
 
     @Override
     public Page<Word> getWordsAsPage(int page, int size) {
@@ -58,10 +57,8 @@ public class WordDefaultService implements WordService {
 
     @Override
     public QuizDto getQuiz() {
-        List<Word> words = wordJpaRepository.findAll().subList(0, 5);
-        return makeQuiz(words.toArray(Word[]::new));
+        return makeQuiz();
     }
-
 
 
     private Word findById(Long id) {
@@ -70,18 +67,15 @@ public class WordDefaultService implements WordService {
         );
     }
 
-    private QuizDto makeQuiz(Word[] words) {
-        QuizDto quiz = new QuizDto();
-        quiz.setConcept(words[0].getConcept());
-        int answerNum = new Random().ints(1, 0, 5).findAny().getAsInt();
-        if (answerNum != 0) {
-            Word temp = words[answerNum];
-            words[answerNum] = words[0];
-            words[0] = temp;
+    private QuizDto makeQuiz() {
+
+        List<Word> words = wordJpaRepository.findAll();
+        HashSet<Word> selectedWords = new HashSet<>();
+        while (selectedWords.size() < 5) {
+            int index = (int) (Math.random() * words.size());
+            selectedWords.add(words.get(index));
         }
-        quiz.setAnswerIndex(answerNum);
-        quiz.setQuestionArray(
-                Arrays.stream(words).map(Word::getMeaning).toArray(String[]::new));
-        return quiz;
+
+        return new QuizDto(selectedWords.toArray(Word[]::new));
     }
 }

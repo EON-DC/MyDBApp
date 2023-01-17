@@ -20,11 +20,10 @@ public class Word {
 
     private String concept;
 
+    @Column(length = 600)
     private String meaning;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "category_id")
-    private Category category;
+    private String category;
 
     private String fullName;
 
