@@ -5,6 +5,7 @@ import jv.dbApp.myPrivateDB.dto.QuizDto;
 import jv.dbApp.myPrivateDB.dto.WordDto;
 import jv.dbApp.myPrivateDB.service.WordDefaultService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,10 +16,16 @@ public class WordRestController {
 
     private final WordDefaultService wordDefaultService;
 
-    @GetMapping("/api/words")
+    @GetMapping(value = "/api/words")
     public List<Word> getAllWords() {
         return wordDefaultService.getALlWords();
     }
+
+    @GetMapping(value = "/api/words", params = "pageNum")
+    public List<Word> getWords(@RequestParam(value = "pageNum", required = false) Integer pageNum) {
+        return wordDefaultService.getWordsAsPage(pageNum, 30).stream().toList();
+    }
+
 
     @PostMapping("/api/words")
     public Word saveWord(Word word) {

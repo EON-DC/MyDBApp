@@ -29,7 +29,7 @@ public class MyPrivateDbApplication {
 	@Bean
 	CommandLineRunner commandLineRunner(WordEnrollService wordEnrollService) {
 		return args -> {
-			 wordEnrollService.enrollmentData();
+//			 wordEnrollService.enrollmentData();
 		};
 	}
 

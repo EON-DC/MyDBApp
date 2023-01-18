@@ -10,18 +10,48 @@
         </router-link>
       </div>
     </nav>
+    <div>
+      <p>{{ obj.count }}</p>
+      <button class="btn btn-primary mx-2" @click="countClick()">plus</button>
+      <button class="btn btn-info mx-2" @click="resetCount()">reset</button>
+      <p>Has published books:</p>
+      <span>{{ publishedBooksMessage }}</span>
+      <div>
+        {{ dateTime.hours }}:{{ dateTime.minutes }}:{{ dateTime.seconds }}
+      </div>
+    </div>
     <router-view :nameOfChild="name" :words="data.words" :quiz="data.quiz" />
   </div>
 </template>
 <script>
 import { reactive, onMounted } from 'vue'
-
+const date = new Date()
 export default {
   name: '',
   components: {},
   data() {
     return {
-      name: 'park'
+      obj: {
+        firstName: 'kim',
+        lastName: 'chulSu',
+        count: 0
+      },
+      isButtonDisabled: false,
+      name: 'park',
+      author: {
+        name: 'John Doe',
+        books: [
+          'Vue 2 - Advanced Guide',
+          'Vue 3 - Basic Guide',
+          'Vue 4 - The Mystery'
+        ]
+      },
+      dateTime: {
+        hours: date.getHours(),
+        minutes: date.getMinutes(),
+        seconds: date.getSeconds()
+      },
+      timer: undefined
     }
   },
   setup() {
@@ -53,10 +83,38 @@ export default {
       getQuiz: getQuiz
     }
   },
-
-  created() {},
-  mounted() {},
-  unmounted() {},
-  methods: {}
+  computed: {
+    // a computed getter
+    publishedBooksMessage() {
+      // `this` points to the component instance
+      return this.author.books.length > 0 ? 'Yes' : 'No'
+    }
+  },
+  methods: {
+    countClick() {
+      this.obj.count++
+      this.author.books = this.author.books.slice(
+        0,
+        this.author.books.length - 1
+      )
+    },
+    resetCount() {
+      this.obj.count = 0
+    },
+    setDateTime() {
+      const date = new Date()
+      this.dateTime = {
+        hours: date.getHours(),
+        minutes: date.getMinutes(),
+        seconds: date.getSeconds()
+      }
+    }
+  },
+  beforeMount() {
+    this.timer = setInterval(this.setDateTime, 1000)
+  },
+  beforeUnmount() {
+    clearInterval(this.timer)
+  }
 }
 </script>
