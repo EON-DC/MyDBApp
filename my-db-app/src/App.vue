@@ -10,16 +10,7 @@
         </router-link>
       </div>
     </nav>
-    <div>
-      <p>{{ obj.count }}</p>
-      <button class="btn btn-primary mx-2" @click="countClick()">plus</button>
-      <button class="btn btn-info mx-2" @click="resetCount()">reset</button>
-      <p>Has published books:</p>
-      <span>{{ publishedBooksMessage }}</span>
-      <div>
-        {{ dateTime.hours }}:{{ dateTime.minutes }}:{{ dateTime.seconds }}
-      </div>
-    </div>
+    <div></div>
     <router-view :nameOfChild="name" :words="data.words" :quiz="data.quiz" />
   </div>
 </template>
