@@ -10,7 +10,7 @@
         </router-link>
       </div>
     </nav>
-    <div></div>
+    <div>{{ jobDescribe }} <button @click="changeJob">change</button></div>
     <router-view :nameOfChild="name" :words="data.words" :quiz="data.quiz" />
   </div>
 </template>
@@ -26,6 +26,9 @@ export default {
         firstName: 'kim',
         lastName: 'chulSu',
         count: 0
+      },
+      someObj: {
+        message: 'doctor'
       },
       isButtonDisabled: false,
       name: 'park',
@@ -79,6 +82,9 @@ export default {
     publishedBooksMessage() {
       // `this` points to the component instance
       return this.author.books.length > 0 ? 'Yes' : 'No'
+    },
+    jobDescribe() {
+      return this.someObj.message + ' is his job.'
     }
   },
   methods: {
@@ -99,6 +105,9 @@ export default {
         minutes: date.getMinutes(),
         seconds: date.getSeconds()
       }
+    },
+    changeJob() {
+      this.someObj.message = 'other job'
     }
   },
   beforeMount() {
