@@ -10,111 +10,61 @@
         </router-link>
       </div>
     </nav>
-    <div>{{ jobDescribe }} <button @click="changeJob">change</button></div>
-    <router-view :nameOfChild="name" :words="data.words" :quiz="data.quiz" />
+
+    <router-view @todayCountChange="todayCountChange" />
+
+    <div class="mt-5 p-2 text-start">
+      <hr />
+      <p>
+        오늘 푼 문제 개수 : {{ this.today_count }}
+        <!-- <span v-show="today_count"
+          >( 정답률 : {{ correction_count / today_count }} %)</span
+        > -->
+      </p>
+
+      <p>현재 DB에 등록된 단어의 개수 : {{ this.db_status.rowCount }} 개</p>
+
+      <br />
+    </div>
   </div>
 </template>
 <script>
-import { reactive, onMounted } from 'vue'
-const date = new Date()
+import axios from 'axios'
+
 export default {
   name: '',
   components: {},
   data() {
     return {
-      obj: {
-        firstName: 'kim',
-        lastName: 'chulSu',
-        count: 0
-      },
-      someObj: {
-        message: 'doctor'
-      },
-      isButtonDisabled: false,
-      name: 'park',
-      author: {
-        name: 'John Doe',
-        books: [
-          'Vue 2 - Advanced Guide',
-          'Vue 3 - Basic Guide',
-          'Vue 4 - The Mystery'
-        ]
-      },
-      dateTime: {
-        hours: date.getHours(),
-        minutes: date.getMinutes(),
-        seconds: date.getSeconds()
-      },
-      timer: undefined
-    }
-  },
-  setup() {
-    const data = reactive({
       words: [],
-      quiz: ''
-    })
-    const getWordList = () => {
-      fetch('http://localhost:8085/api/words')
-        .then((response) => response.json())
-        .then((response) => {
-          data.words = response
-        })
-    }
-    const getQuiz = () => {
-      fetch('http://localhost:8085/api/words/quiz')
-        .then((response) => response.json())
-        .then((response) => {
-          data.quiz = response
-        })
-    }
-    onMounted(() => {
-      getWordList(), getQuiz()
-      console.log(data)
-    })
-    return {
-      data: data,
-      getWordList: getWordList,
-      getQuiz: getQuiz
-    }
-  },
-  computed: {
-    // a computed getter
-    publishedBooksMessage() {
-      // `this` points to the component instance
-      return this.author.books.length > 0 ? 'Yes' : 'No'
-    },
-    jobDescribe() {
-      return this.someObj.message + ' is his job.'
+      quiz: '',
+      db_status: {},
+      today_count: 0,
+      correction_count: 0
     }
   },
   methods: {
-    countClick() {
-      this.obj.count++
-      this.author.books = this.author.books.slice(
-        0,
-        this.author.books.length - 1
-      )
+    getStatus() {
+      axios
+        .get('http://localhost:8085/api/words/status')
+        .then((response) => {
+          this.db_status = response.data
+          console.log('getStatus called')
+        })
+        .catch((error) => {
+          console.error
+        })
     },
-    resetCount() {
-      this.obj.count = 0
-    },
-    setDateTime() {
-      const date = new Date()
-      this.dateTime = {
-        hours: date.getHours(),
-        minutes: date.getMinutes(),
-        seconds: date.getSeconds()
-      }
-    },
-    changeJob() {
-      this.someObj.message = 'other job'
+    todayCountChange(e) {
+      console.log('#app. count ' + e)
+      this.today_count = e
     }
   },
-  beforeMount() {
-    this.timer = setInterval(this.setDateTime, 1000)
+
+  mounted() {
+    console.log('app called')
+    this.getStatus()
   },
-  beforeUnmount() {
-    clearInterval(this.timer)
-  }
+  computed: {}
 }
 </script>

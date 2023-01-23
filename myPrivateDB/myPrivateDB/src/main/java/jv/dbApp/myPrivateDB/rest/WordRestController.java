@@ -2,6 +2,7 @@ package jv.dbApp.myPrivateDB.rest;
 
 import jv.dbApp.myPrivateDB.domain.Word;
 import jv.dbApp.myPrivateDB.dto.QuizDto;
+import jv.dbApp.myPrivateDB.dto.Status;
 import jv.dbApp.myPrivateDB.dto.WordDto;
 import jv.dbApp.myPrivateDB.service.WordDefaultService;
 import lombok.RequiredArgsConstructor;
@@ -50,5 +51,10 @@ public class WordRestController {
     @GetMapping("/api/words/quiz")
     public QuizDto getQuiz() {
         return wordDefaultService.getQuiz();
+    }
+
+    @GetMapping("/api/words/status")
+    public Status getStatus() {
+        return wordDefaultService.getStatus();
     }
 }

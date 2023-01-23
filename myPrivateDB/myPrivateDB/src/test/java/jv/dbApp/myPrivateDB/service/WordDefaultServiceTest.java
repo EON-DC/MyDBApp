@@ -2,6 +2,7 @@ package jv.dbApp.myPrivateDB.service;
 
 import jv.dbApp.myPrivateDB.domain.Word;
 import jv.dbApp.myPrivateDB.dto.QuizDto;
+import jv.dbApp.myPrivateDB.dto.Status;
 import jv.dbApp.myPrivateDB.repository.WordJpaRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -87,5 +88,11 @@ class WordDefaultServiceTest {
         QuizDto quiz = wordDefaultService.getQuiz();
         System.out.println("quiz.toString() = " + quiz.toString());
         assertThat(quiz.getConcept()).isNotNull();
+    }
+
+    @Test
+    void getStatus(){
+        Status status = wordDefaultService.getStatus();
+        assertThat(status.getRowCount()).isEqualTo(5);
     }
 }

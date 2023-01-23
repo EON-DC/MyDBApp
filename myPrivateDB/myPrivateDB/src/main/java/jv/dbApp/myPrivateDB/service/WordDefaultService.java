@@ -2,6 +2,7 @@ package jv.dbApp.myPrivateDB.service;
 
 import jv.dbApp.myPrivateDB.domain.Word;
 import jv.dbApp.myPrivateDB.dto.QuizDto;
+import jv.dbApp.myPrivateDB.dto.Status;
 import jv.dbApp.myPrivateDB.repository.WordJpaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -60,6 +61,10 @@ public class WordDefaultService implements WordService {
         return makeQuiz();
     }
 
+    @Override
+    public Status getStatus() {
+        return new Status(wordJpaRepository.findAll().size());
+    }
 
     private Word findById(Long id) {
         return wordJpaRepository.findById(id).orElseThrow(
