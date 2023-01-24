@@ -33,7 +33,7 @@ import axios from 'axios'
 
 export default {
   name: '',
-  components: {},
+  components: ['todayCountChange'],
   data() {
     return {
       words: [],
@@ -56,7 +56,6 @@ export default {
         })
     },
     todayCountChange(e) {
-      console.log('#app. count ' + e)
       this.today_count = e
     }
   },

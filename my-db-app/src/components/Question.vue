@@ -14,9 +14,12 @@
   <div>
     <div class="collapse" :id="'collapse' + selected.id">
       <div class="card card-body">
+        <span v-if="selected.fullName != 'null'"
+          >{{ selected.fullName }} <br
+        /></span>
+
         개념 : {{ selected.concept }} <br />카테고리 : {{ selected.category }}
-        <br />
-        <span v-if="selected.fullName != 'null'">{{ selected.fullName }}</span>
+
         <a
           class="text-end"
           :href="'http://localhost:8080/words/edit?id=' + selected.id"
@@ -30,9 +33,7 @@
 export default {
   props: ['selected'], // concept, answerIndex, select
   data() {
-    return {
-      picked: null
-    }
+    return {}
   },
   methods: {}
 }
