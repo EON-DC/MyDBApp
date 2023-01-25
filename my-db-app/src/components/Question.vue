@@ -1,5 +1,5 @@
 <template>
-  <span class="mx-2">
+  <span>
     <img
       src="../assets/question.svg"
       alt=""
@@ -12,29 +12,37 @@
     />
   </span>
   <div>
-    <div class="collapse" :id="'collapse' + selected.id">
+    <div class="collapse show m-2" :id="'collapse' + selected.id">
       <div class="card card-body">
-        <span v-if="selected.fullName != 'null'"
-          >{{ selected.fullName }} <br
-        /></span>
+        <div class="row">
+          <div class="col-10">
+            <span class="h6"> {{ selected.concept }}</span>
 
-        개념 : {{ selected.concept }} <br />카테고리 : {{ selected.category }}
-
-        <a
-          class="text-end"
-          :href="'http://localhost:8080/words/edit?id=' + selected.id"
-          >edit</a
-        >
+            <span v-if="selected.fullName != 'null'">
+              &nbsp;&nbsp;&nbsp;{{ selected.fullName }}
+            </span>
+            <br />
+            카테고리 : {{ selected.category }}
+          </div>
+          <div class="col-2">
+            <EditModal :word="selected" />
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </template>
 <script>
+import EditModal from '../components/EditModal.vue'
 export default {
-  props: ['selected'], // concept, answerIndex, select
+  props: ['selected', 'picked'], // concept, answerIndex, select
+  components: { EditModal },
   data() {
-    return {}
+    return {
+      isSelected: false
+    }
   },
-  methods: {}
+  methods: {},
+  computed: {}
 }
 </script>

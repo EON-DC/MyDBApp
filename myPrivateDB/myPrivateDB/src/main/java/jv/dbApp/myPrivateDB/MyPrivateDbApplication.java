@@ -29,16 +29,17 @@ public class MyPrivateDbApplication {
 	@Bean
 	CommandLineRunner commandLineRunner(WordEnrollService wordEnrollService) {
 		return args -> {
-//			 wordEnrollService.enrollmentData();
+			 wordEnrollService.enrollmentData();
 		};
 	}
 
 	@Bean
 	public WebMvcConfigurer corsConfigurer() {
 		return new WebMvcConfigurer() {
+			public static final String ALLOWED_METHOD_NAMES = "GET,HEAD,POST,PUT,DELETE,TRACE,OPTIONS,PATCH";
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
-				registry.addMapping("/**").allowedOrigins("http://localhost:8080");
+				registry.addMapping("/**").allowedOrigins("http://localhost:8080").allowedMethods(ALLOWED_METHOD_NAMES.split(","));
 			}
 		};
 	}

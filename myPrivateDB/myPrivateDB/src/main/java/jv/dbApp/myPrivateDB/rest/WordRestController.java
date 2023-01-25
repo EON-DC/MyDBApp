@@ -29,8 +29,10 @@ public class WordRestController {
 
 
     @PostMapping("/api/words")
-    public Word saveWord(Word word) {
-        return wordDefaultService.saveWord(word);
+    public Word saveWord(@RequestBody WordDto wordDto)
+    {
+        System.out.println("wordDto = " + wordDto.toString());
+        return wordDefaultService.saveWord(new Word(wordDto.getConcept(), wordDto.getMeaning(), wordDto.getFullName(), wordDto.getFullName()));
     }
 
     @GetMapping("/api/words/{id}")
@@ -40,7 +42,7 @@ public class WordRestController {
 
     @PatchMapping("/api/words/{id}")
     public Word updateWord(@PathVariable Long id, WordDto wordDto) {
-        return wordDefaultService.updateWord(id, wordDto.getConcept(), wordDto.getMeaning());
+        return wordDefaultService.updateWord(id,wordDto );
     }
 
     @DeleteMapping("/api/words/{id}")

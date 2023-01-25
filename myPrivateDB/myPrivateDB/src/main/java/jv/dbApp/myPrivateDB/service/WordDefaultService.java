@@ -3,6 +3,7 @@ package jv.dbApp.myPrivateDB.service;
 import jv.dbApp.myPrivateDB.domain.Word;
 import jv.dbApp.myPrivateDB.dto.QuizDto;
 import jv.dbApp.myPrivateDB.dto.Status;
+import jv.dbApp.myPrivateDB.dto.WordDto;
 import jv.dbApp.myPrivateDB.repository.WordJpaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -37,9 +38,9 @@ public class WordDefaultService implements WordService {
     }
 
     @Override
-    public Word updateWord(Long id, String concept, String meaning) {
+    public Word updateWord(Long id, WordDto wordDto) {
         Word findWord = findById(id);
-        findWord.update(concept, meaning);
+        findWord.update(wordDto.getConcept(), wordDto.getMeaning(), wordDto.getCategory(), wordDto.getFullName());
         return findWord;
     }
 

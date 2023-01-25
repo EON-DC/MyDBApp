@@ -1,9 +1,19 @@
 <template>
   <div class="container">
     <div>
-      <h1>My saved words</h1>
-      <div class="card m-2" v-for="(word, i) in this.words" :key="i">
-        <h5 class="card-title m-3">{{ i + 1 }}. {{ word.concept }}</h5>
+      <h1 class="text-center my-2">My saved words</h1>
+      <SaveModal />
+      <div class="card mb-2" v-for="(word, i) in this.words" :key="i">
+        <div class="d-flex justify-content-between">
+          <span class="h2 card-title mx-3 mt-3"
+            >{{ i + 1 }}. {{ word.concept }}</span
+          >
+          <EditModal :word="word" />
+        </div>
+        <blockquote v-if="word.fullName != 'null'" class="mx-4">
+          &nbsp;&nbsp;&nbsp;{{ word.fullName }}
+        </blockquote>
+
         <h6 class="card-subtitle mx-3 text-muted text-end">
           {{ word.category }}
         </h6>
@@ -15,9 +25,11 @@
   </div>
 </template>
 <script>
+import EditModal from '../components/EditModal.vue'
+import SaveModal from '../components/SaveModal.vue'
 export default {
   name: 'study',
-  components: {},
+  components: { EditModal, SaveModal },
   data() {
     return {
       words: []

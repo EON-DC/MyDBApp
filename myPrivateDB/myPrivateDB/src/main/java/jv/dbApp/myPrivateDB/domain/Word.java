@@ -31,10 +31,29 @@ public class Word {
     public Word(String concept, String meaning) {
         this.concept = concept;
         this.meaning = meaning;
+        this.category = null;
+        this.fullName = "null";
     }
 
-    public void update(String concept, String meaning) {
+    public Word(String concept, String meaning, String category) {
         this.concept = concept;
         this.meaning = meaning;
+        this.category = category;
+        this.fullName = "null";
+    }
+
+    public Word(String concept, String meaning, String category, String fullName) {
+        this.concept = concept;
+        this.meaning = meaning;
+        this.category = category;
+        this.fullName = fullName;
+    }
+
+    public void update(String concept, String meaning, String category, String fullName) {
+        this.concept = concept;
+        this.meaning = meaning;
+        this.category = category;
+        this.fullName = fullName;
+
     }
 }

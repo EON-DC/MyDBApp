@@ -35,7 +35,7 @@
           v-model="picked"
         />
         <label class="form-check-label" :for="i">{{ selected.meaning }}</label>
-        <Question :selected="selected" />
+        <Question :selected="selected" :picked="picked" />
       </div>
 
       <div class="text-center" v-if="this.picked != null">

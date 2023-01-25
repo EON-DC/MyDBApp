@@ -3,6 +3,7 @@ package jv.dbApp.myPrivateDB.service;
 import jv.dbApp.myPrivateDB.domain.Word;
 import jv.dbApp.myPrivateDB.dto.QuizDto;
 import jv.dbApp.myPrivateDB.dto.Status;
+import jv.dbApp.myPrivateDB.dto.WordDto;
 import jv.dbApp.myPrivateDB.repository.WordJpaRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -62,7 +63,8 @@ class WordDefaultServiceTest {
 
     @Test
     void updateWord() {
-        Word word = wordDefaultService.updateWord(1L, "Music", "음악");
+        Word word = wordDefaultService.updateWord(1L, new WordDto("음악", "Music", null, null
+        ));
         assertThat(word.getId()).isNotNull();
         assertThat(word.getMeaning()).isEqualTo("음악");
         assertThat(word.getConcept()).isEqualTo("Music");
