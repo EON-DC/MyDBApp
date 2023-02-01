@@ -18,6 +18,7 @@ Vue 를 통해 프론트화면을 제공한다.
 front service 를 구성할 [my-db-app] 폴더, back end service를 구성할 [myPrivateDB]로 프로젝트 폴더 구분한다.
 
 
+
 ### 도메인
 + Word 1개만 사용함
     + field: id, concept, meaning, category, fullName
