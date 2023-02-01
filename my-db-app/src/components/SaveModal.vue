@@ -78,7 +78,7 @@
           >
             저장
           </button>
-          <div>{{ this.saveWord }}</div>
+          <!-- <div>{{ this.saveWord }}</div> -->
         </div>
       </div>
     </div>

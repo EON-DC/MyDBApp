@@ -29,7 +29,8 @@ public class WordEnrollService {
                 String damper = "";
                 String[] splitWithBig = line.split("\"");
                 if (splitWithBig.length != 1 && splitWithBig.length != 3) {
-                    System.out.println("splitWithBig[" + splitWithBig.length + "] = " + Arrays.stream(splitWithBig).map(s -> "__" + s + "__").toList());
+                    System.out.println("splitWithBig[" + splitWithBig.length + "] = "
+                            + Arrays.stream(splitWithBig).map(s -> "__" + s + "__").toList());
                 }
                 if (splitWithBig.length == 1) {
                     String[] elements = splitWithBig[0].split(",");

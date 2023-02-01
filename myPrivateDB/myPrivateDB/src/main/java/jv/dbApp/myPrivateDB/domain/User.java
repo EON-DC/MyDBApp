@@ -1,2 +1,4 @@
-package jv.dbApp.myPrivateDB.domain;public class User {
+package jv.dbApp.myPrivateDB.domain;
+
+public class User {
 }
